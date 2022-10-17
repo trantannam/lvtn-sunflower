@@ -1,0 +1,33 @@
+{
+  "name": "sunf_server",
+  "version": "1.0.0",
+  "description": "sunflower server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trantannam/lvtn-sunflower.git"
+  },
+  "keywords": [
+    "server",
+    "sfserver",
+    "sunfserver"
+  ],
+  "author": "DuyTan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trantannam/lvtn-sunflower/issues"
+  },
+  "homepage": "https://github.com/trantannam/lvtn-sunflower#readme",
+  "dependencies": {
+    "argon2": "^0.30.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.5"
+  }
+}
