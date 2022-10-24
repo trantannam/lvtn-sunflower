@@ -20,8 +20,11 @@ const ProductSchema = new Schema({
     },
     description:{
         type: String,
+    },
+    producttype: {
+        type: Schema.Types.ObjectId,
+        ref: 'producttype',
     }
-    
 })
 
 module.exports = mongoose.model('products', ProductSchema)

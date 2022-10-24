@@ -8,6 +8,8 @@ class ProductController {
         res.send('customer');
     }
 
+    
+
 }
 
 module.exports = new ProductController();
