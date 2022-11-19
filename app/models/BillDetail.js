@@ -7,4 +7,6 @@ const BillDetailSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'product'
     }
-})
+});
+
+module.exports = mongoose.model("billdetail", BillDetailSchema);
