@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const CustomerSchema = new Schema({
     customername: {
         type: String,
-        required: true,
     },
     phonenumber: {
         type: String,
@@ -17,8 +16,6 @@ const CustomerSchema = new Schema({
     },
     loginname: {
         type: String,
-        required: true,
-        unique: true,
     },
     
 }, {timestamps: true});

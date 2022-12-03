@@ -1,12 +1,20 @@
+const { model } = require("mongoose");
+const { populate } = require("../models/Cart");
 const Cart = require("../models/Cart");
 
 const cartController = {
 
     //get cart
-    getCart: async (req, res)=>{
+    getCart: async (req, res) => {
         try {
-            const listCart = await Cart.find(req.body);
-            res.status(200).json({success: true, message: "Successfully!", listCart});
+            const listCart = await Cart.findOne(req.body).populate({path: "product", populate: {path: "productID"}} );
+            // console.log("listCart",listCart)
+            if (listCart === null) {
+                res.json({success: false,message: "Customer not found"});
+            } else {
+                res.status(200).json({ success: true, message: "Successfully!", listCart });
+            }
+            console.log(req.body)
         } catch (error) {
             res.status(404).json(error);
         }
@@ -15,8 +23,9 @@ const cartController = {
     //Create and add product to cart
     createCart: async (req, res) => {
         try {
-            const item = await new Cart(req.body);
+            const item = new Cart(req.body);
             const cart = await item.save();
+            console.log("createCart",req.body);
             res.status(200).json({ message: "Add to cart successfully", cart });
         } catch (error) {
             res.status(404).json(error);
@@ -24,15 +33,17 @@ const cartController = {
     },
 
     //Add to cart
-    addToCart: async (req, res)=>{
+    addToCart: async (req, res) => {
         try {
             const cart = await Cart.findById(req.body._id);
-            const temp = cart.product;
-            temp.push((req.body.product));
-            // const data = Object.assign(cart.product, req.body.product);
-            console.log("cart", req.body.product);
-            await cart.updateOne(cart);
-            res.status(200).json({data:data,cart});
+            const data = {
+                productID: req.body.product.productID,
+                quantity: req.body.product.quantity
+            }
+            cart.product.push(data);// Neu push loi, them index mang
+            await cart.save();
+            await res.status(200).json({ success: true, message: "Successfully!", cart });
+            console.log("addToCart",req.body);
         } catch (error) {
             res.status(404).json(error);
         }
@@ -42,11 +53,13 @@ const cartController = {
     updateCart: async (req, res) => {
 
         try {
-            const cart = await Cart.findById(req.body._id);
-            // const cart = new Cart;
-            // const newCart = Object.assign(cart, req.body);
-            await cart.updateOne(req.body);
-            res.status(200).json({ message: "Update cart successfully", cart });
+            const newCart = await Cart.findById(req.body._id);
+            await newCart.updateOne(req.body);
+            await newCart.save();
+            const cart = await Cart.findById(req.body._id).populate({path: "product", populate: {path: "productID"}} );
+            await res.status(200).json({ message: "Update cart successfully", cart });
+            // console.log("updateCart", cart);
+            // console.log("req.body",req.body);
         } catch (error) {
             res.status(404).json(error);
         }
@@ -55,9 +68,24 @@ const cartController = {
     //Delete product in cart
     deleteCart: async (req, res) => {
         try {
-            const cart = await Cart.findById(req.body._id);
-            await cart.updateOne(req.body);
-            res.status(200).json(cart)
+            const cart = await Cart.findById(req.body._id).populate({path: "product", populate: {path: "productID"}} );
+            console.log(req.body);
+            let inArr = null;
+            // const newCart = cart.product.filter(item => item !== req.body.product[0]);
+            cart.product.map((item, index)=>{
+                if(item._id.toString() === req.body.product._id){
+                    inArr = index;
+                    console.log("inArr",inArr)
+                }
+            })
+            console.log("inArr",inArr)
+            if(inArr !== null){
+                cart.product.splice(inArr, 1);
+                await cart.save();
+            }else{
+                await cart.save();
+            }
+            res.status(200).json({success: true, message: "Successfully!",cart})
         } catch (error) {
             res.status(404).json(error);
         }

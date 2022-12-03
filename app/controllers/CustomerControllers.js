@@ -41,7 +41,7 @@ const authController = {
 
             //save db
             const user = await createUser.save();
-            res.status(200).json(user);
+            res.status(200).json({message: "Successfully", success: true,user});
         } catch (error) {
             return res.status(500).json(error);
         }

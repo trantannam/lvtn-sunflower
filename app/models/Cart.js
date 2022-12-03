@@ -11,6 +11,7 @@ const CartSchema = new Schema({
         productID: {type: Schema.Types.ObjectId, ref: "products"},
         quantity: Number
     }] 
-});
+}, {timestamps: true}
+);
 
 module.exports = mongoose.model('cart', CartSchema);
