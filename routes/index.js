@@ -4,10 +4,12 @@ const siteRouter = require('./site');
 const customerRouter = require('./customer');
 const cartRouter = require('./cart');
 const commentRouter = require('./comment');
+const puchaseorderRouter = require('./purchaseorder');
 const express = require('express');
 
 
 function route(app) {
+    app.use('/puchaseorder', puchaseorderRouter)
     app.use('/comment', commentRouter);
     app.use('/cart', cartRouter);
     app.use('/img', express.static('img'));

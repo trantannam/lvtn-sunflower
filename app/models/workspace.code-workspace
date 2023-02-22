@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\Hoc_ReactJS\\Hoc_CSS_F8"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\Hoc_ReactJS\\Hoc_CSS_F8\\Web_The_Band"
+		},
+		{
+			"path": "..\\..\\.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Web_The_Band",
+		"markdown.preview.scrollEditorWithPreview": false,
+		"files.autoSaveDelay": 5000
+	}
+}
