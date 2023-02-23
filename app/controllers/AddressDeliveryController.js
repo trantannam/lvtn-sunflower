@@ -2,8 +2,10 @@ const AddressDelivery = require("../models/DeliveryAddress");
 
 const cartController = {
 
-    //put delivery address 
-    
+    //add new delivery address
+    addAddress: async (req, res)=>{
+        
+    }
 
 }
 
