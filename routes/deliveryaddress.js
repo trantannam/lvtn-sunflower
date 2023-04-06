@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const cartController = require('../app/controllers/CartControllers');
+const dAController = require('../app/controllers/AddressDeliveryController');
 
-router.post('/getcart', cartController.getCart);
+router.post('/addAddress', dAController.addAddress);
 
 module.exports = router;

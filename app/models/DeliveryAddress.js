@@ -24,7 +24,7 @@ const AddressSchema = new Schema({
             name: String,
         }
     }],
-    contentaddress: {
+    type: {
         type: String,
         require: true
     }

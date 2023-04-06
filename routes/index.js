@@ -1,4 +1,5 @@
 const producttypeRouter = require('./producttype');
+const deliveryRouter = require('./deliveryaddress');
 const productRouter = require('./product');
 const siteRouter = require('./site');
 const customerRouter = require('./customer');
@@ -9,6 +10,7 @@ const express = require('express');
 
 
 function route(app) {
+    app.use('/delivery', deliveryRouter)
     app.use('/puchaseorder', puchaseorderRouter)
     app.use('/comment', commentRouter);
     app.use('/cart', cartRouter);
