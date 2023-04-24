@@ -6,10 +6,12 @@ const customerRouter = require('./customer');
 const cartRouter = require('./cart');
 const commentRouter = require('./comment');
 const puchaseorderRouter = require('./purchaseorder');
+const paymentRouter = require('./payment');
 const express = require('express');
 
 
 function route(app) {
+    app.use('/payment', paymentRouter)
     app.use('/delivery', deliveryRouter)
     app.use('/puchaseorder', puchaseorderRouter)
     app.use('/comment', commentRouter);

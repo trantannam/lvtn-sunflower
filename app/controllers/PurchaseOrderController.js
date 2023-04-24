@@ -19,7 +19,6 @@ const PurchaseOrderController = {
             res.status(500).json(error);
         }
     }
- 
 }
 
 module.exports = new PurchaseOrderController();
