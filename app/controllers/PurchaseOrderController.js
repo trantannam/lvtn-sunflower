@@ -21,4 +21,4 @@ const PurchaseOrderController = {
     }
 }
 
-module.exports = new PurchaseOrderController();
+module.exports = PurchaseOrderController;

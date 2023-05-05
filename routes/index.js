@@ -13,7 +13,7 @@ const express = require('express');
 function route(app) {
     app.use('/payment', paymentRouter)
     app.use('/delivery', deliveryRouter)
-    app.use('/puchaseorder', puchaseorderRouter)
+    app.use('/purchaseorder', puchaseorderRouter)
     app.use('/comment', commentRouter);
     app.use('/cart', cartRouter);
     app.use('/img', express.static('img'));

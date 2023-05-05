@@ -4,30 +4,22 @@ const Schema = mongoose.Schema;
 
 const PurchaseOrderSchema = new Schema({
 
-    product: {
+    cart: {
         type: Schema.Types.ObjectId,
-        ref: 'products'
+        ref: 'carts'
     },
-    productlist: [{
-        product: {
-            type: Schema.Types.ObjectId,
-            ref: 'products'
-        },
-        quantity: {
-            type: Number,
-            required: true
-        }
-    }],
     customer: {
         type: Schema.Types.ObjectId,
         ref: 'customers'
     },
-    address: {
-        type: Schema.Types.ObjectId,
-        ref: 'address'
+    address: {type: String},
+    receiver: {
+        name: {type: String},
+        gender: {type: String},
+        phone:{type: String},
+        ortherphone: {type: String}
     },
-    delivery: ["not delivery", "delivering", "delivered"],
-    payment: ["unpay", "paid"]
+    paymentstatus: ["unpay", "paid"]
 }, { timestamps: true });
 
 module.exports = mongoose.model('purchaseorder', PurchaseOrderSchema);

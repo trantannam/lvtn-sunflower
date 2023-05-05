@@ -9,19 +9,19 @@ const AddressSchema = new Schema({
     },
     division: [{
         province: {
-            name: String,
-            code: Number
+            type: String,
+            
         },
         district: {
-            name: String,
-            code: Number
+            type: String,
+            
         },
         ward: {
-            name: String,
-            code: Number
+            type: String,
+            
         },
         describe: {
-            name: String,
+            type: String,
         }
     }],
     type: {
