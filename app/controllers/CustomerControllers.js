@@ -33,15 +33,17 @@ const authController = {
 
             //create new user
             const createUser = await new User({
-                customername: req.body.customername,
-                phonenumber: req.body.phonenumber,
+                customer_name: req.body.customer_name,
+                phone_number: req.body.phone_number,
                 password: hashed,
-                loginname: req.body.loginname,
+                login_name: req.body.login_name,
             });
 
             //save db
             const user = await createUser.save();
-            res.status(200).json({message: "Successfully", success: true,user});
+            if (user) {
+                return res.status(200).json({message: "Successfully", success: true, data: user});
+            }
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -49,28 +51,31 @@ const authController = {
 
     login: async (req, res) => {
         try {
-            const user = await User.findOne({ phonenumber: req.body.phonenumber });
-            // res.json(req.body)
+            const user = await User.findOne({$or: [
+                {login_name: req.body.login_name},
+                {phone_number: req.body.phone_number}
+            ]});
 
             if (!user) {
                 return res.status(404).json({
                     success: false,
-                    message: "account not found!"
+                    message: "Account not found!"
                 })
             }
 
-            const validPasswork = await bcrypt.compare(req.body.password, user.password);
+            const validPassword = await bcrypt.compare(req.body.password, user.password);
 
-            if (!validPasswork) {
+            if (!validPassword) {
                 return res.status(404).json({
                     success: false,
                     message: "Password failed!"
                 })
             }
 
-            if (user && validPasswork) {
+            if (user && validPassword) {
                 const accessToken = authController.generateAccessToken(user);
                 const refreshToken = authController.generateRefreshToken(user);
+                console.log(user)
                 const { password, ...others } = user._doc;
                 refreshTokens.push(refreshToken);
                 res.cookie("refreshToken", refreshToken, {
@@ -79,7 +84,7 @@ const authController = {
                     path: "/",
                     sameSite: "strict",
                 });
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Successfully!",
                     ...others,

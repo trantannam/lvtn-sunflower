@@ -18,6 +18,7 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 route(app);
+
 // app.use('/img', express.static('public'));
 
 const PORT = 5000;

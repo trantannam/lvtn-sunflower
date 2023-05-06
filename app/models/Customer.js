@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CustomerSchema = new Schema({
-    customername: {
+    customer_name: {
         type: String,
     },
-    phonenumber: {
+    phone_number: {
         type: String,
         required: true,
     },
@@ -14,7 +14,10 @@ const CustomerSchema = new Schema({
         type: String,
         required: true,
     },
-    loginname: {
+    login_name: {
+        type: String,
+    },
+    address: {
         type: String,
     },
     

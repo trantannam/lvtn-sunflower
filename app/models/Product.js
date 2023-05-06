@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-
-    productname: {
+    name: {
         type: String,
         required: true
     },
@@ -21,9 +20,9 @@ const ProductSchema = new Schema({
     description:{
         type: String,
     },
-    producttype: {
+    product_type: {
         type: Schema.Types.ObjectId,
-        ref: 'producttype',
+        ref: 'product_type',
     }
 })
 

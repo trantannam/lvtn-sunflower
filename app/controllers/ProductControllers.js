@@ -1,4 +1,4 @@
-const product = require('../models/Product');
+const Product = require('../models/Product');
 
 
 const ProductController = {
@@ -6,49 +6,54 @@ const ProductController = {
     // ADD
     addProduct: async (req, res) => {
         try {
-            const data = new product({
-                productname: req.body.productname,
+            const data = new Product({
+                name: req.body.name,
                 price: req.body.price,
                 amount: req.body.amount,
                 image: req.body.image,
                 description: req.body.description,
-                producttype: req.body.producttype,
+                product_type: req.body.product_type,
             });
             const save = await data.save();
-            res.status(200).json(save);
+            if (save) {
+                return res.status(200).json({
+                    success: true,
+                    message: 'successfully'
+                });
+            }
         } catch (error) {
-            res.status(500).json(error);
+            return res.status(500).json(error);
         }
     },
 
     // get product
     index: async (req, res) =>{
-                 product.find({}, function (err, products){
+        Product.find({}, function (err, products){
             if(!err){
-
-                res.json({
+                return res.json({
                     success: true,
-                    massage: 'successfully',
-                    products
+                    message: 'successfully',
+                    data: products
                 });
-            }else{
-                res.status(400).json({error: 'ERROR!!!'})
+            } else {
+                return res.status(400).json({error: 'ERROR!!!'})
             }
-        });
+        })
+        .populate('product_type');
     },
 
     getProductById: async (req, res) => {
-        product.findById(req.params.id)
+        Product.findById(req.params.id)
+        .populate('product_type')
         .then( (result) => {
-            res.status(200).json({
+            return res.json({
                 success: true,
-                massage: 'successfully!',
-                result
+                message: 'successfully!',
+                data: result
             })
         })
         .catch(err => {
-            console.log(err)
-            res.status(500).json({
+            return res.status(500).json({
                 error: err
             })
         })

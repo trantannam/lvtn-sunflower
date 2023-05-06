@@ -1,14 +1,14 @@
-const Producttype = require('../models/ProductType');
+const ProductType = require('../models/ProductType');
 
-class ProducttypeController {
+class ProductTypeControllers {
 
     index(req, res){
-        Producttype.find({}, function (err, producttype){
+        ProductType.find({}, function (err, product_type){
             if(!err){
                 res.json({
                     success: true,
-                    massage: 'successfully',
-                    producttype
+                    message: 'successfully',
+                    data: product_type
                 });
             }else{
                 res.status(400).json({error: 'ERROR!!!'})
@@ -17,4 +17,4 @@ class ProducttypeController {
     }
 }
 
-module.exports = new ProducttypeController();
+module.exports = new ProductTypeControllers();
