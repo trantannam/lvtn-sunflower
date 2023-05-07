@@ -3,11 +3,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PurchaseOrderSchema = new Schema({
-
-    cart: {
-        type: Schema.Types.ObjectId,
-        ref: 'carts'
-    },
     customer: {
         type: Schema.Types.ObjectId,
         ref: 'customers'
@@ -19,6 +14,7 @@ const PurchaseOrderSchema = new Schema({
         phone:{type: String},
         ortherphone: {type: String}
     },
+    products: {type: Array},
     paymentstatus: ["unpay", "paid"]
 }, { timestamps: true });
 
