@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
-
+const mongoose = require('mongoose');
+const path = '/images/products/'
 
 const ProductController = {
 
@@ -57,6 +58,59 @@ const ProductController = {
                 error: err
             })
         })
+    },
+    updateProduct: async (req, res) => {
+        const { id } = req.params
+        const product = await Product.findById(id);
+        if (!product) {
+        return res.status(404).send({ message: 'Product Not Found', success: false });
+        }
+        const session = await mongoose.startSession()
+        session.startTransaction()
+        try {
+          const {
+            name,
+            price,
+            amount,
+            description,
+            product_type
+          } = req.body
+
+          product.product_name = name
+          product.price = price
+          product.amount = amount
+          product.description = description
+          product.product_type = product_type
+      
+          const update = await product.save({ session })
+          if (!update) {
+            return res.status(404).send({ error: 'Error saving product', success: false})
+          }
+          await session.commitTransaction()
+          await session.endSession()
+          return res.send({ data: update, success: true })
+        } catch (e) {
+            await session.abortTransaction()
+            await session.endSession()
+            return res.status(404).send({ error: e.message, success: false})
+        }
+    },
+    updateProductImage: async (req, res) => {
+        const { id } = req.params
+        try {
+            const product = await Product.findById(id);
+            if (!product) {
+                return res.status(404).send({data: "Không tìm thấy sản phẩm", success: false})
+            }
+            product.image = req.file.path;
+            const updatedProduct = await product.save();
+            if (!updatedProduct) {
+                return res.status(404).send({data: "Không thể cập nhật", success: false})
+            }
+            return res.send({data: "Cập nhật thành công", success: true })
+        } catch (e) {
+            return res.status(404).send({data: e.message, success: false})
+        }
     }
 };
 

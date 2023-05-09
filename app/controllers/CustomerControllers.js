@@ -53,7 +53,7 @@ const authController = {
         try {
             const user = await User.findOne({$or: [
                 {login_name: req.body.login_name},
-                {phone_number: req.body.phone_number}
+                {phone_number: req.body.login_name}
             ]});
 
             if (!user) {

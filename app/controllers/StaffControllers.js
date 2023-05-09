@@ -66,9 +66,7 @@ const StaffControllers = {
     },
     sigin: async (req, res) => {
         try {
-            const user = await Staff.findOne({ phone: req.body.phone });
-            // res.json(req.body)
-
+            const user = await Staff.findOne({email: req.body.login_name})
             if (!user) {
                 return res.status(404).json({
                     success: false,
@@ -115,9 +113,9 @@ const StaffControllers = {
             password,
             address
         } = req.body
-        
+
         try {
-            const exists = await Staff.findOne({ phone })
+            const exists = await Staff.findOne({ email })
             if (!exists) {
                 const salt = await bcrypt.genSalt(10);
                 const hashed = await bcrypt.hash(password, salt);
@@ -135,8 +133,9 @@ const StaffControllers = {
                 if (createdStaff) {
                     return res.send({ data: createdStaff, success: true });
                 }
+                return res.status(403).send({ data: createdStaff, success: true });
             }
-            return res.send({ error: 'Số điện thoại đã tồn tại', success: false });
+            return res.send({ error: 'Số điện thoại hoặc Emal đã tồn tại', success: false });
         } catch (error) {
             return res.status(500).json(error);
         }
