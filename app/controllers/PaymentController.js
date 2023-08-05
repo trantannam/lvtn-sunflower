@@ -34,7 +34,7 @@ const paymentController ={
         var dueDate = date.setMinutes(date.getMinutes() + 15)
         var createDate = moment(date).format('YYYYMMDDHHmmss');
         var expireDate = moment(dueDate).format('YYYYMMDDHHmmss');
-        var orderId = date.getTime();
+        var orderId = date.getTime().toString() + Math.floor(Math.random()*100);
         var amount = req.body.total; // tong tien
         var bankCode = req.body.bankCode; //NCB
     
@@ -67,7 +67,7 @@ const paymentController ={
         vnp_Params['vnp_SecureHash'] = signed;
         vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
         console.log(vnpUrl);
-        res.send({ data: vnpUrl, success: true })
+        res.send({ data: vnpUrl, success: true, tranCode: orderId })
     }
 }
 

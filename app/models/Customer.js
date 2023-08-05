@@ -17,10 +17,16 @@ const CustomerSchema = new Schema({
     login_name: {
         type: String,
     },
+    gender: {
+        type: String,
+    },
     address: {
         type: String,
     },
-    
-}, {timestamps: true});
+    list_loveproducts: {
+        type: Array,
+        default: [],
+    }
+}, { timestamps: true });
 
 module.exports = mongoose.model('customers', CustomerSchema);
