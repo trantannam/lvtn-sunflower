@@ -11,6 +11,7 @@ router.post('/logout', middlewareController.verifyToken, customerController.logo
 router.post('/add-love-product', customerController.addListLoveProducts);
 router.post('/remove-love-product', customerController.removeListLoveProducts);
 router.get('/love-product/:id', customerController.getListLoveProducts);
+router.get('/:id', customerController.getInfo);
 router.get('/', customerController.getAllCustomer);
 
 

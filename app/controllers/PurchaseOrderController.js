@@ -2,6 +2,16 @@ const PurchaseOrder = require('../models/PurchaseOrder');
 
 const PurchaseOrderController = {
 
+    //get all PO
+    getAllPO: async (req, res)=>{
+        try {
+            const PO = await PurchaseOrder.find().populate("customer");
+            res.status(200).json({ success: true, message: "successfully", PO })
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    },
+
     //create purchase order
     createPO: async (req, res) => {
         try {
@@ -42,7 +52,8 @@ const PurchaseOrderController = {
             res.status(500).json(error);
         }
     },
-    getPObyId: async (req, res) => {
+    //find PO customer ID
+    getPObyCustomerId: async (req, res) => {
         try {
             PurchaseOrder.find({customer: req.params.id})
             .then(result=>{
@@ -53,6 +64,20 @@ const PurchaseOrderController = {
             res.status(500).json(error);
         }
     },
+
+    //find PO by trancode
+    getPObyId: async (req, res) => {
+        try {
+            PurchaseOrder.find({tranCode: req.params.id})
+            .then(result=>{
+                return res.status(200).json({ success: true, message: "successfully", PO: result })
+            })
+
+        } catch (error) {
+            res.status(500).json(error); 
+        }
+    },
+
     deletePO: async (req, res) => {
         try {
         } catch (error) {

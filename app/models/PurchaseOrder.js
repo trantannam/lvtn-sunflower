@@ -16,6 +16,7 @@ const PurchaseOrderSchema = new Schema({
         ortherphone: {type: String}
     },
     products: {type: Array},
+    totalEstimate: {type: Schema.Types.Number, default:0},
     paymentStatus: {type: String}, //["cod", "paid", "Waiting to pay"]
     deliveryStatus: {type: String}//["waiting for progressing", "shipping", "delivered"]
 

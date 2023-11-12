@@ -10,24 +10,25 @@ const AddressSchema = new Schema({
     division: [{
         province: {
             type: String,
-            
+
         },
         district: {
             type: String,
-            
+
         },
         ward: {
             type: String,
-            
+
         },
         describe: {
             type: String,
+        },
+        type: {
+            type: String,
+            require: true
         }
     }],
-    type: {
-        type: String,
-        require: true
-    }
+
 });
 
 module.exports = mongoose.model('address', AddressSchema);

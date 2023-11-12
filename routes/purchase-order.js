@@ -4,6 +4,8 @@ const purchaseOrderController = require('../app/controllers/PurchaseOrderControl
 
 router.post("/create", purchaseOrderController.createPO);
 router.post("/update-payment-status", purchaseOrderController.updatePaymentStatusPO);
-router.get("/:id",purchaseOrderController.getPObyId);
+router.get("/:id",purchaseOrderController.getPObyCustomerId);
+router.get("/trancode/:id",purchaseOrderController.getPObyId);
+router.get("/",purchaseOrderController.getAllPO);
 
 module.exports = router;

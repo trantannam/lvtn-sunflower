@@ -8,6 +8,7 @@ const commentRouter = require('./comment');
 const purchaseOrderRouter = require('./purchase-order');
 const paymentRouter = require('./payment');
 const staffRouter = require('./staff');
+const dashboardRouter = require('./dashboard')
 const express = require('express');
 
 
@@ -22,6 +23,7 @@ function route(app) {
     app.use('/product-type', productTypeRouter);
     app.use('/product', productRouter);
     app.use('/staff', staffRouter);
+    app.use('/dashboard', dashboardRouter)
     app.use('/', siteRouter);
 
 }

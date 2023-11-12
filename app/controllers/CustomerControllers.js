@@ -25,6 +25,27 @@ const authController = {
         );
     },
 
+    //get customer by id
+    getInfo: async(req, res)=>{
+        try {
+            const user = await User.findById(req.params.id);
+            if(user){
+                return res.status(200).json({
+                    success: true,
+                    message: "Successfully!",
+                    user
+                })
+            }else{
+                return res.status(404).json({
+                    success: false,
+                    message: "User failed!"
+                })
+            }
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+
     //customer register
     register: async (req, res) => {
         try {
