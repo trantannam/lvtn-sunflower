@@ -28,88 +28,140 @@ const ProductController = {
     },
 
     // get product
-    index: async (req, res) =>{
-        Product.find({}, function (err, products){
-            if(!err){
+    index: async (req, res) => {
+        Product.find({}, function (err, products) {
+            if (!err) {
                 return res.json({
                     success: true,
                     message: 'successfully',
                     data: products
                 });
             } else {
-                return res.status(400).json({error: 'ERROR!!!'})
+                return res.status(400).json({ error: 'ERROR!!!' })
             }
         })
-        .populate('product_type');
+            .populate('product_type');
     },
+
+    // getProductByTypeProductId: async (req, res) => {
+    //     Product.find({
+    //         product_type: req.params.id
+    //     })
+    // },
 
     getProductById: async (req, res) => {
         Product.findById(req.params.id)
-        .populate('product_type')
-        .then( (result) => {
-            return res.json({
-                success: true,
-                message: 'successfully!',
-                data: result
+            .populate('product_type')
+            .then((result) => {
+                return res.json({
+                    success: true,
+                    message: 'successfully!',
+                    data: result
+                })
             })
-        })
-        .catch(err => {
-            return res.status(500).json({
-                error: err
+            .catch(err => {
+                return res.status(500).json({
+                    error: err
+                })
             })
-        })
     },
+
     updateProduct: async (req, res) => {
         const { id } = req.params
         const product = await Product.findById(id);
         if (!product) {
-        return res.status(404).send({ message: 'Product Not Found', success: false });
+            return res.status(404).send({ message: 'Product Not Found', success: false });
         }
         const session = await mongoose.startSession()
         session.startTransaction()
         try {
-          const {
-            name,
-            price,
-            amount,
-            description,
-            product_type
-          } = req.body
+            const {
+                name,
+                price,
+                amount,
+                description,
+                product_type
+            } = req.body
 
-          product.product_name = name
-          product.price = price
-          product.amount = amount
-          product.description = description
-          product.product_type = product_type
-      
-          const update = await product.save({ session })
-          if (!update) {
-            return res.status(404).send({ error: 'Error saving product', success: false})
-          }
-          await session.commitTransaction()
-          await session.endSession()
-          return res.send({ data: update, success: true })
+            product.product_name = name
+            product.price = price
+            product.amount = amount
+            product.description = description
+            product.product_type = product_type
+            const update = await product.save({ session })
+            if (!update) {
+                return res.status(404).send({ error: 'Error saving product', success: false })
+            }
+            await session.commitTransaction()
+            await session.endSession()
+            return res.send({ data: update, success: true })
         } catch (e) {
             await session.abortTransaction()
             await session.endSession()
-            return res.status(404).send({ error: e.message, success: false})
+            return res.status(404).send({ error: e.message, success: false })
         }
     },
+
     updateProductImage: async (req, res) => {
         const { id } = req.params
         try {
             const product = await Product.findById(id);
             if (!product) {
-                return res.status(404).send({data: "Không tìm thấy sản phẩm", success: false})
+                return res.status(404).send({ data: "Không tìm thấy sản phẩm", success: false })
             }
             product.image = req.file.path;
             const updatedProduct = await product.save();
             if (!updatedProduct) {
-                return res.status(404).send({data: "Không thể cập nhật", success: false})
+                return res.status(404).send({ data: "Không thể cập nhật", success: false })
             }
-            return res.send({data: "Cập nhật thành công", success: true })
+            return res.send({ data: "Cập nhật thành công", success: true })
         } catch (e) {
-            return res.status(404).send({data: e.message, success: false})
+            return res.status(404).send({ data: e.message, success: false })
+        }
+    },
+
+    createImgProduct: async (req, res) => {
+        try {
+            const file = req.file;
+            if (!file) {
+                return res.status(404).send({ message: "Không thể lưu ảnh đã gửi", success: false })
+            }
+            res.send({
+                message: "Uploaded",
+                uri: `/img/product/${file.filename}`,
+                success: true
+            })
+        } catch (error) {
+            return res.status(500).send({ data: error.message, success: false })
+        }
+    },
+
+    createProduct: async (req, res) => {
+        try {
+            const {
+                product_name,
+                price,
+                image,
+                amount,
+                description,
+                product_type,
+            } = req.body
+            console.log("body", req.body)
+            const product = new Product({
+                product_name: product_name,
+                price: price,
+                amount: amount,
+                image: image,
+                description: description,
+                product_type: product_type,
+            });
+            const newProduct = await product.save()
+            if (!newProduct) {
+                return res.status(404).send({ error: 'Error saving product', success: false })
+            }
+            return res.send({ product: newProduct, success: true, message: "Cập nhật thành công", })
+        } catch (error) {
+            return res.status(500).send({ data: error.message, success: false })
         }
     }
 };

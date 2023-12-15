@@ -18,8 +18,8 @@ const PurchaseOrderSchema = new Schema({
     products: {type: Array},
     totalEstimate: {type: Schema.Types.Number, default:0},
     paymentStatus: {type: String}, //["cod", "paid", "Waiting to pay"]
-    deliveryStatus: {type: String}//["waiting for progressing", "shipping", "delivered"]
-
+    deliveryStatus: {type: Number}
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model('purchaseorder', PurchaseOrderSchema);

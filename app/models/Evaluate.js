@@ -3,20 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EvaluateSchema = new Schema({
-    evaluateId: {
-        type: String,
-        required: true,
-        unique: true
-    },
     content: {
         type: String,
         required: true
     },
-    createAt: {
-        type: Date,
-        default: Date.now
-    },
-    scoreevaluate: {
+    rating: {
         type: Number,
         required: true
     },
@@ -28,6 +19,6 @@ const EvaluateSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'customers'
     }
-});
+},{timestamps:true});
 
 module.exports = mongoose.model('evaluate', EvaluateSchema);
